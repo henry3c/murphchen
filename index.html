@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Murph — 终端风格介绍</title>
+  <title>MURPH CHEN — 终端风格介绍</title>
   <style>
     :root{
       --bg:#0b0f14;
@@ -11,7 +11,7 @@
       --accent:#5fbeff;
       --cursor:#6ee2ff;
       --comment: #62727d;
-      font-size:18px; /* 增大了基础字体大小 */
+      font-size:18px;
     }
     html,body{height:100%;}
     body{
@@ -28,7 +28,7 @@
 
     .terminal {
       width:100%;
-      max-width:900px; /* 增加了最大宽度以适应更大的字体 */
+      max-width:900px;
       background:#0e141b;
       border-radius:8px;
       box-shadow: 0 12px 36px rgba(1,6,12,0.8);
@@ -40,24 +40,24 @@
       display:flex;
       align-items:center;
       gap:8px;
-      padding:12px 16px; /* 增加了内边距 */
+      padding:12px 16px;
       background:#0f1720;
       border-bottom:1px solid rgba(70,130,180,0.1);
     }
-    .dot{width:12px;height:12px;border-radius:50%;} /* 增大了圆点 */
+    .dot{width:12px;height:12px;border-radius:50%;}
     .dot.red{background:#ff5f56}
     .dot.yellow{background:#ffbd2e}
     .dot.green{background:#27c93f}
     .filename{
       margin-left:auto;
       color:var(--comment);
-      font-size:0.9rem; /* 调整了相对大小 */
+      font-size:0.9rem;
       font-weight:500;
     }
 
-    .term-body{padding:24px 28px;min-height:300px} /* 增加了内边距 */
-    .line{line-height:1.7;font-size:1.1rem;white-space:pre-wrap;word-break:break-word} /* 增大了字体和行高 */
-    .prompt{color:var(--accent);margin-right:10px;font-weight:500;} /* 增加了右边距 */
+    .term-body{padding:24px 28px;min-height:300px}
+    .line{line-height:1.7;font-size:1.1rem;white-space:pre-wrap;word-break:break-word}
+    .prompt{color:var(--accent);margin-right:10px;font-weight:500;}
     
     .youtube {color: #ff0000;}
     .bilibili {color: #fb7299;}
@@ -65,25 +65,25 @@
 
     .typing {
       display:inline-block;
-      min-width:10px; /* 增大了最小宽度 */
+      min-width:10px;
       border-right:2px solid var(--cursor);
-      padding-right:5px; /* 增加了右边距 */
+      padding-right:5px;
       box-sizing:content-box;
       animation:blink 1s steps(2,end) infinite;
     }
     @keyframes blink{50%{border-color:transparent}}
 
-    .links{display:flex;flex-direction:column;gap:14px;margin-top:24px;} /* 增加了间距 */
+    .links{display:flex;flex-direction:column;gap:14px;margin-top:24px;}
     
     .link-line {
-      font-size:1.05rem; /* 增大了字体 */
+      font-size:1.05rem;
     }
     
     .platform-link {
       text-decoration: none;
       cursor: pointer;
       transition: all 0.2s ease;
-      padding: 3px 6px; /* 增加了内边距 */
+      padding: 3px 6px;
       border-radius: 4px;
       font-weight: 500;
     }
@@ -93,12 +93,35 @@
       transform: translateY(-1px);
     }
 
+    /* 移动设备隐藏邮箱地址 */
+    .contact-mail {
+      display: inline;
+    }
+    
     @media (max-width:640px){
       :root {
-        font-size: 16px; /* 在移动设备上保持合适的字体大小 */
+        font-size: 16px;
       }
       .term-body{padding:18px 20px}
       .line{font-size:1rem;}
+      
+      /* 在移动设备上隐藏邮箱地址，显示mail */
+      .contact-email {
+        display: none;
+      }
+      .contact-mail {
+        display: inline;
+      }
+    }
+    
+    /* 桌面设备显示邮箱地址，隐藏mail */
+    @media (min-width:641px){
+      .contact-email {
+        display: inline;
+      }
+      .contact-mail {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -108,7 +131,7 @@
       <div class="dot red"></div>
       <div class="dot yellow"></div>
       <div class="dot green"></div>
-      <div class="filename">murp_profile.txt</div>
+      <div class="filename">murphchen_profile.txt</div>
     </div>
 
     <div class="term-body">
@@ -126,7 +149,7 @@
           <span class="prompt">//:</span> → open("<a href="https://x.com/c1286151" target="_blank" class="platform-link x">x</a>")
         </div>
         <div class="link-line">
-          <span class="prompt">//:</span> → contact("<a href="mailto:murphchen@qq.com" class="platform-link">murphchen@qq.com</a>")
+          <span class="prompt">//:</span> → contact("<a href="mailto:murphchen@qq.com" class="platform-link"><span class="contact-email">murphchen@qq.com</span><span class="contact-mail">mail</span></a>")
         </div>
       </div>
     </div>
@@ -134,7 +157,7 @@
 
   <script>
     // 文案
-    const nameLine = ' my name is murp chen';
+    const nameLine = ' my name is murph chen';
     const followPrefix = ' follow me on ';
     const platforms = [
       {name:'YouTube', color:'youtube', delay:2000},
