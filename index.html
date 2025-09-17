@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Murph — 终端风格介绍</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --text:#c8d6e5;
+      --accent:#5fbeff;
+      --cursor:#6ee2ff;
+      --comment: #62727d;
+      font-size:18px; /* 增大了基础字体大小 */
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(135deg,#051421 0%,var(--bg) 100%);
+      color:var(--text);
+      font-family: "Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:1.5rem;
+      box-sizing:border-box;
+    }
+
+    .terminal {
+      width:100%;
+      max-width:900px; /* 增加了最大宽度以适应更大的字体 */
+      background:#0e141b;
+      border-radius:8px;
+      box-shadow: 0 12px 36px rgba(1,6,12,0.8);
+      border:1px solid rgba(70,130,180,0.15);
+      overflow: hidden;
+    }
+
+    .term-head{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:12px 16px; /* 增加了内边距 */
+      background:#0f1720;
+      border-bottom:1px solid rgba(70,130,180,0.1);
+    }
+    .dot{width:12px;height:12px;border-radius:50%;} /* 增大了圆点 */
+    .dot.red{background:#ff5f56}
+    .dot.yellow{background:#ffbd2e}
+    .dot.green{background:#27c93f}
+    .filename{
+      margin-left:auto;
+      color:var(--comment);
+      font-size:0.9rem; /* 调整了相对大小 */
+      font-weight:500;
+    }
+
+    .term-body{padding:24px 28px;min-height:300px} /* 增加了内边距 */
+    .line{line-height:1.7;font-size:1.1rem;white-space:pre-wrap;word-break:break-word} /* 增大了字体和行高 */
+    .prompt{color:var(--accent);margin-right:10px;font-weight:500;} /* 增加了右边距 */
+    
+    .youtube {color: #ff0000;}
+    .bilibili {color: #fb7299;}
+    .x {color: #1da1f2;}
+
+    .typing {
+      display:inline-block;
+      min-width:10px; /* 增大了最小宽度 */
+      border-right:2px solid var(--cursor);
+      padding-right:5px; /* 增加了右边距 */
+      box-sizing:content-box;
+      animation:blink 1s steps(2,end) infinite;
+    }
+    @keyframes blink{50%{border-color:transparent}}
+
+    .links{display:flex;flex-direction:column;gap:14px;margin-top:24px;} /* 增加了间距 */
+    
+    .link-line {
+      font-size:1.05rem; /* 增大了字体 */
+    }
+    
+    .platform-link {
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 3px 6px; /* 增加了内边距 */
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .platform-link:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width:640px){
+      :root {
+        font-size: 16px; /* 在移动设备上保持合适的字体大小 */
+      }
+      .term-body{padding:18px 20px}
+      .line{font-size:1rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal" role="region" aria-label="终端风格界面">
+    <div class="term-head">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+      <div class="filename">murp_profile.txt</div>
+    </div>
+
+    <div class="term-body">
+      <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
+      <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
+      
+      <div class="links">
+        <div class="link-line">
+          <span class="prompt">//:</span> → open("<a href="https://www.youtube.com/@murphchen" target="_blank" class="platform-link youtube">youtube</a>")
+        </div>
+        <div class="link-line">
+          <span class="prompt">//:</span> → open("<a href="https://space.bilibili.com/14014217?spm_id_from=333.33.0.0" target="_blank" class="platform-link bilibili">bilibili</a>")
+        </div>
+        <div class="link-line">
+          <span class="prompt">//:</span> → open("<a href="https://x.com/c1286151" target="_blank" class="platform-link x">x</a>")
+        </div>
+        <div class="link-line">
+          <span class="prompt">//:</span> → contact("<a href="mailto:murphchen@qq.com" class="platform-link">murphchen@qq.com</a>")
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 文案
+    const nameLine = ' my name is murp chen';
+    const followPrefix = ' follow me on ';
+    const platforms = [
+      {name:'YouTube', color:'youtube', delay:2000},
+      {name:'bilibili', color:'bilibili', delay:2000},
+      {name:'X', color:'x', delay:2000}
+    ];
+
+    const TYPING_SPEED = 55;
+    const DEL_SPEED = 35;
+
+    const elName = document.getElementById('typed-1');
+    const elFollow = document.getElementById('typed-2');
+    const elPlatform = document.getElementById('typed-3');
+
+    // 简单等待
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+
+    async function typeOnce(el, text, speed=TYPING_SPEED, showCursor=false){
+      if (showCursor) el.classList.add('typing');
+      el.textContent = '';
+      for (let i=0;i<text.length;i++){
+        el.textContent += text[i];
+        await wait(speed + Math.random()*20 - 8);
+      }
+      if (showCursor) el.classList.remove('typing');
+    }
+
+    // 循环显示平台名称
+    async function cyclePlatforms() {
+      let index = 0;
+      while(true) {
+        const platform = platforms[index];
+        
+        // 设置当前平台颜色类
+        elPlatform.className = platform.color;
+        
+        // 打字效果
+        elPlatform.classList.add('typing');
+        for (let i=0;i<platform.name.length;i++){
+          elPlatform.textContent += platform.name[i];
+          await wait(60 + Math.random()*40);
+        }
+        elPlatform.classList.remove('typing');
+        
+        // 保持显示
+        await wait(platform.delay);
+        
+        // 删除效果
+        elPlatform.classList.add('typing');
+        for (let i=0;i<platform.name.length;i++){
+          elPlatform.textContent = elPlatform.textContent.slice(0,-1);
+          await wait(DEL_SPEED + Math.random()*20);
+        }
+        elPlatform.classList.remove('typing');
+        
+        // 切换到下一个平台
+        index = (index + 1) % platforms.length;
+        await wait(600);
+      }
+    }
+
+    // 启动画面逻辑
+    (async function init(){
+      if (window.__murph_init_done) return; 
+      window.__murph_init_done = true;
+      
+      // 等待一点时间再开始
+      await wait(800);
+      
+      // 第一行打字
+      await typeOnce(elName, nameLine, TYPING_SPEED, false);
+      await wait(400);
+      
+      // 第二行前缀
+      await typeOnce(elFollow, followPrefix, TYPING_SPEED, false);
+      
+      // 开始循环显示平台名称
+      cyclePlatforms();
+    })();
+  </script>
+</body>
+</html>
