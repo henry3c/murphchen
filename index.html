@@ -56,10 +56,11 @@
       margin-left:auto;
       color:var(--comment);
       font-size:0.85rem;
-      font-weight:500;
+      font-weight:50;
     }
 
-    .term-body{padding:18px 22px 14px;min-height:220px}
+    /*  ultra compact */
+    .term-body{padding:18px 22px 8px; min-height:130px}
     .line{line-height:1.6;font-size:1rem;white-space:pre-wrap;word-break:break-word}
     .prompt{color:var(--accent);margin-right:8px;font-weight:500;}
     
@@ -78,19 +79,20 @@
     }
     @keyframes blink{50%{border-color:transparent}}
 
-    .links{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+    .links{margin-top:16px;}
     
     .link-line {
       font-size:1rem;
     }
     
     .platform-link {
-      text-decoration: none; /* 无下划线，最干净 */
+      text-decoration: none;
       cursor: pointer;
       transition: all 0.2s ease;
       padding: 2px 5px;
       border-radius: 4px;
       font-weight: 500;
+      margin: 0 4px;
     }
     
     .platform-link:hover {
@@ -99,12 +101,10 @@
     }
 
     @media (max-width:640px){
-      :root {
-        font-size: 16px;
-      }
-      .term-body{padding:14px 16px 10px; min-height:200px}
+      :root { font-size: 16px; }
+      .term-body{padding:14px 16px 6px; min-height:110px}
       .line{font-size:0.95rem;}
-      .links{gap:10px; margin-top:16px;}
+      .links{margin-top:12px;}
     }
   </style>
 </head>
@@ -123,13 +123,13 @@
       
       <div class="links">
         <div class="link-line">
-          <span class="prompt">//:</span> Click <a href="https://www.youtube.com/@murphchen" target="_blank" class="platform-link YouTube">YouTube</a>
-        </div>
-        <div class="link-line">
-          <span class="prompt">//:</span> Click <a href="https://space.bilibili.com/14014217?spm_id_from=333.33.0.0" target="_blank" class="platform-link bilibili">bilibili</a>
-        </div>
-        <div class="link-line">
-          <span class="prompt">//:</span> Click <a href="https://x.com/murphchenonx" target="_blank" class="platform-link X">X</a>
+          <span class="prompt">//:</span> 
+          Click 
+          <a href="https://www.youtube.com/@murphchen" target="_blank" class="platform-link YouTube">YouTube</a>
+          • 
+          <a href="https://space.bilibili.com/14014217?spm_id_from=333.33.0.0" target="_blank" class="platform-link bilibili">bilibili</a>
+          • 
+          <a href="https://x.com/murphchenonx" target="_blank" class="platform-link X">X</a>
         </div>
       </div>
     </div>
@@ -138,7 +138,7 @@
   <script>
     // 文案
     const nameLine = ' I\'m Murph Chen';
-    const followPrefix = ' Follow Me On '; // 👈 这里改成了首字母全大写
+    const followPrefix = ' Follow Me On ';
     const platforms = [
       {name:'YouTube', color:'YouTube', delay:2000},
       {name:'bilibili', color:'bilibili', delay:2000},
