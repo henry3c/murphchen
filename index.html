@@ -22,7 +22,7 @@
       margin:0;
       background: linear-gradient(135deg,#051421 0%,var(--bg) 100%);
       color:var(--text);
-      font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-family: "JetBrains Mono", monospace;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -46,97 +46,83 @@
       gap:8px;
       padding:10px 14px;
       background:#0f1720;
-      border-bottom:1px solid rgba(70,130,180,0.1);
     }
     .dot{width:10px;height:10px;border-radius:50%;}
     .dot.red{background:#ff5f56}
     .dot.yellow{background:#ffbd2e}
     .dot.green{background:#27c93f}
-    .filename{
-      margin-left:auto;
-      color:var(--comment);
-      font-size:0.85rem;
-      font-weight:50;
-    }
+    .filename{margin-left:auto;color:var(--comment);font-size:0.85rem;}
 
-    /*  ultra compact */
-    .term-body{padding:18px 22px 8px; min-height:130px}
-    .line{line-height:1.6;font-size:1rem;white-space:pre-wrap;word-break:break-word}
-    .prompt{color:var(--accent);margin-right:8px;font-weight:500;}
+    .term-body{padding:18px 22px 8px;}
+    .line{line-height:1.6;white-space:pre;}
+    .prompt{color:var(--accent);font-weight:500;}
     
-    /* 平台色：YouTube + B站 + 经典推特蓝 */
     .YouTube {color: #FF0000;}
     .bilibili {color: #FB7299;}
-    .X {color: #1DA1F2;} /* 经典 Twitter 蓝 */
+    .X {color: #1DA1F2;}
 
     .typing {
       display:inline-block;
-      min-width:8px;
       border-right:2px solid var(--cursor);
-      padding-right:4px;
-      box-sizing:content-box;
       animation:blink 1s steps(2,end) infinite;
     }
     @keyframes blink{50%{border-color:transparent}}
 
-    .links{margin-top:16px;}
-    
-    .link-line {
-      font-size:1rem;
-    }
-    
     .platform-link {
       text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      padding: 2px 5px;
-      border-radius: 4px;
-      font-weight: 500;
-      margin: 0 4px;
+      padding:2px 4px;
+      font-weight:500;
     }
-    
-    .platform-link:hover {
-      background: rgba(255,255,255,0.1);
-      transform: translateY(-1px);
-    }
+    .platform-link:hover {background:rgba(255,255,255,0.1)}
 
-    @media (max-width:640px){
-      :root { font-size: 16px; }
-      .term-body{padding:14px 16px 6px; min-height:110px}
-      .line{font-size:0.95rem;}
-      .links{margin-top:12px;}
+    /* 核心对齐方案：网格布局 */
+    .link-grid {
+      margin-top:16px;
+      display: grid;
+      grid-template-columns: auto 1fr; /* 第一列自适应（放//: Click），第二列固定对齐 */
+      gap: 8px 0; /* 行间距，列间距0 */
+      align-items: start;
+    }
+    /* 只显示第一行的//: */
+    .grid-prompt {
+      color: var(--accent);
+      font-weight:500;
+      white-space: nowrap; /* 防止换行 */
+    }
+    .grid-prompt.empty {
+      visibility: hidden; /* 占位但不显示 */
     }
   </style>
 </head>
 <body>
-  <div class="terminal" role="region" aria-label="终端风格界面">
-    <div class="term-head">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-      <div class="filename">murphchen_profile.txt</div>
-    </div>
 
-    <div class="term-body">
-      <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
-      <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
-      
-      <div class="links">
-        <div class="link-line">
-          <span class="prompt">//:</span> 
-          Click 
-          <a href="https://www.youtube.com/@murphchen" target="_blank" class="platform-link YouTube">YouTube</a>
-          • 
-          <a href="https://space.bilibili.com/14014217?spm_id_from=333.33.0.0" target="_blank" class="platform-link bilibili">bilibili</a>
-          • 
-          <a href="https://x.com/murphchenonx" target="_blank" class="platform-link X">X</a>
-        </div>
-      </div>
-    </div>
+<div class="terminal">
+  <div class="term-head">
+    <div class="dot red"></div>
+    <div class="dot yellow"></div>
+    <div class="dot green"></div>
+    <div class="filename">murphchen_profile.txt</div>
   </div>
 
-  <script>
-    // 文案
+  <div class="term-body">
+    <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
+    <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
+    
+    <!-- 用网格布局实现精准对齐 -->
+    <div class="link-grid">
+      <div class="grid-prompt">//: Click</div>
+      <div><a href="https://www.youtube.com/@murphchen" class="platform-link YouTube">YouTube</a></div>
+      
+      <div class="grid-prompt empty">//: Click</div> <!-- 占位，不显示 -->
+      <div><a href="https://space.bilibili.com/14014217" class="platform-link bilibili">bilibili</a></div>
+      
+      <div class="grid-prompt empty">//: Click</div> <!-- 占位，不显示 -->
+      <div><a href="https://x.com/murphchenonx" class="platform-link X">X</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
     const nameLine = ' I\'m Murph Chen';
     const followPrefix = ' Follow Me On ';
     const platforms = [
@@ -154,57 +140,36 @@
 
     const wait = ms => new Promise(r => setTimeout(r, ms));
 
-    async function typeOnce(el, text, speed=TYPING_SPEED, showCursor=false){
-      if (showCursor) el.classList.add('typing');
+    async function typeOnce(el, text, speed=TYPING_SPEED){
       el.textContent = '';
       for (let i=0;i<text.length;i++){
         el.textContent += text[i];
-        await wait(speed + Math.random()*20 - 8);
+        await wait(speed);
       }
-      if (showCursor) el.classList.remove('typing');
     }
 
     async function cyclePlatforms() {
       let index = 0;
       while(true) {
-        const platform = platforms[index];
-        
-        elPlatform.className = platform.color;
-        
-        elPlatform.classList.add('typing');
-        for (let i=0;i<platform.name.length;i++){
-          elPlatform.textContent += platform.name[i];
-          await wait(60 + Math.random()*40);
-        }
-        elPlatform.classList.remove('typing');
-        
-        await wait(platform.delay);
-        
-        elPlatform.classList.add('typing');
-        for (let i=0;i<platform.name.length;i++){
-          elPlatform.textContent = elPlatform.textContent.slice(0,-1);
-          await wait(DEL_SPEED + Math.random()*20);
-        }
-        elPlatform.classList.remove('typing');
-        
-        index = (index + 1) % platforms.length;
+        const p = platforms[index];
+        elPlatform.className = p.color;
+        elPlatform.textContent = '';
+        for(let c of p.name) { elPlatform.textContent += c; await wait(60); }
+        await wait(p.delay);
+        for(let i=0;i<p.name.length;i++){ elPlatform.textContent = elPlatform.textContent.slice(0,-1); await wait(DEL_SPEED); }
+        index = (index+1)%3;
         await wait(600);
       }
     }
 
     (async function init(){
-      if (window.__murph_init_done) return; 
-      window.__murph_init_done = true;
-      
       await wait(800);
-      
-      await typeOnce(elName, nameLine, TYPING_SPEED, false);
+      await typeOnce(elName, nameLine);
       await wait(400);
-      
-      await typeOnce(elFollow, followPrefix, TYPING_SPEED, false);
-      
+      await typeOnce(elFollow, followPrefix);
       cyclePlatforms();
     })();
-  </script>
+</script>
+
 </body>
 </html>
