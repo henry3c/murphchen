@@ -11,8 +11,8 @@
   <style>
     :root{
       --bg:#0b0f14;
-      --text:#c8d6e5;
-      --accent:#5fbeff;
+      --text:#c8d6e5; /* 默认浅灰色 */
+      --accent:#5fbeff; /* X的蓝色（仅保留给需要的地方） */
       --cursor:#6ee2ff;
       --comment: #62727d;
       font-size:18px;
@@ -32,7 +32,7 @@
 
     .terminal {
       width:100%;
-      max-width:480px; /* 仅修改这一行：从700px改为480px，适配视觉平衡 */
+      max-width:480px; /* 保留你要的480px宽度 */
       background:#0e141b;
       border-radius:8px;
       box-shadow: 0 12px 36px rgba(1,6,12,0.8);
@@ -55,13 +55,13 @@
 
     .term-body{padding:18px 22px 8px;}
     .line{line-height:1.6;white-space:pre;}
-    .prompt{color:var(--accent);font-weight:500;}
+    /* 核心修正：把//:的颜色改回默认浅灰色（和Click同色） */
+    .prompt{color: var(--text); font-weight:500;}
     
     .YouTube {color: #FF0000;}
     .bilibili {color: #FB7299;}
     .X {color: #1DA1F2;}
-    /* 恢复Click的默认文本色 */
-    .click-text {color: var(--text);}
+    .click-text {color: var(--text);} /* Click保持默认浅灰色 */
 
     .typing {
       display:inline-block;
@@ -77,23 +77,21 @@
     }
     .platform-link:hover {background:rgba(255,255,255,0.1)}
 
-    /* 核心对齐方案：网格布局 - 调整列宽适配多空格 */
     .link-grid {
       margin-top:16px;
       display: grid;
-      /* 调整列宽为10ch，适配Click后多个空格 */
       grid-template-columns: 10ch 1fr; 
-      gap: 8px 0; /* 行间距，列间距0 */
+      gap: 8px 0;
       align-items: start;
     }
-    /* 只显示第一行的//: */
+    /* 同步修正link-grid里的//:颜色 */
     .grid-prompt {
-      color: var(--accent);
+      color: var(--text); /* 改回默认浅灰色 */
       font-weight:500;
-      white-space: nowrap; /* 防止换行 */
+      white-space: nowrap;
     }
     .grid-prompt.empty {
-      visibility: hidden; /* 占位但不显示 */
+      visibility: hidden;
     }
   </style>
 </head>
@@ -111,13 +109,10 @@
     <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
     <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
     
-    <!-- 用网格布局实现精准对齐 -->
     <div class="link-grid">
-      <!-- Click后加两个空格，视觉更宽松 -->
       <div class="grid-prompt">//: <span class="click-text">Click  </span></div>
       <div><a href="https://www.youtube.com/@murphchen" class="platform-link YouTube">YouTube</a></div>
       
-      <!-- 占位行同步加两个空格，保证列宽一致 -->
       <div class="grid-prompt empty">//: Click  </div>
       <div><a href="https://space.bilibili.com/14014217" class="platform-link bilibili">bilibili</a></div>
       
