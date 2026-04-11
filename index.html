@@ -60,6 +60,8 @@
     .YouTube {color: #FF0000;}
     .bilibili {color: #FB7299;}
     .X {color: #1DA1F2;}
+    /* 恢复Click的默认文本色 */
+    .click-text {color: var(--text);}
 
     .typing {
       display:inline-block;
@@ -75,11 +77,12 @@
     }
     .platform-link:hover {background:rgba(255,255,255,0.1)}
 
-    /* 核心对齐方案：网格布局 */
+    /* 核心对齐方案：网格布局 - 调整列宽适配多空格 */
     .link-grid {
       margin-top:16px;
       display: grid;
-      grid-template-columns: auto 1fr; /* 第一列自适应（放//: Click），第二列固定对齐 */
+      /* 调整列宽为10ch，适配Click后多个空格 */
+      grid-template-columns: 10ch 1fr; 
       gap: 8px 0; /* 行间距，列间距0 */
       align-items: start;
     }
@@ -110,13 +113,15 @@
     
     <!-- 用网格布局实现精准对齐 -->
     <div class="link-grid">
-      <div class="grid-prompt">//: Click</div>
+      <!-- Click后加两个空格，视觉更宽松 -->
+      <div class="grid-prompt">//: <span class="click-text">Click  </span></div>
       <div><a href="https://www.youtube.com/@murphchen" class="platform-link YouTube">YouTube</a></div>
       
-      <div class="grid-prompt empty">//: Click</div> <!-- 占位，不显示 -->
+      <!-- 占位行同步加两个空格，保证列宽一致 -->
+      <div class="grid-prompt empty">//: Click  </div>
       <div><a href="https://space.bilibili.com/14014217" class="platform-link bilibili">bilibili</a></div>
       
-      <div class="grid-prompt empty">//: Click</div> <!-- 占位，不显示 -->
+      <div class="grid-prompt empty">//: Click  </div>
       <div><a href="https://x.com/murphchenonx" class="platform-link X">X</a></div>
     </div>
   </div>
