@@ -11,9 +11,9 @@
   <style>
     :root{
       --bg:#0b0f14;
-      --text:#c8d6e5; /* 默认浅灰色 */
-      --accent:#5fbeff; /* X的蓝色（仅保留给需要的地方） */
-      --cursor:#6ee2ff;
+      --text:#c8d6e5; /* 主文字颜色 */
+      --accent:#5fbeff;
+      --cursor:var(--text); /* 光标颜色 = 主文字颜色（核心修改） */
       --comment: #62727d;
       font-size:18px;
     }
@@ -32,7 +32,7 @@
 
     .terminal {
       width:100%;
-      max-width:480px; /* 保留你要的480px宽度 */
+      max-width:480px;
       background:#0e141b;
       border-radius:8px;
       box-shadow: 0 12px 36px rgba(1,6,12,0.8);
@@ -55,13 +55,12 @@
 
     .term-body{padding:18px 22px 8px;}
     .line{line-height:1.6;white-space:pre;}
-    /* 核心修正：把//:的颜色改回默认浅灰色（和Click同色） */
-    .prompt{color: var(--text); font-weight:500;}
+    .prompt{color: var(--text); font-weight: 500;}
     
     .YouTube {color: #FF0000;}
     .bilibili {color: #FB7299;}
     .X {color: #1DA1F2;}
-    .click-text {color: var(--text);} /* Click保持默认浅灰色 */
+    .click-text {color: var(--text);}
 
     .typing {
       display:inline-block;
@@ -84,14 +83,10 @@
       gap: 8px 0;
       align-items: start;
     }
-    /* 同步修正link-grid里的//:颜色 */
     .grid-prompt {
-      color: var(--text); /* 改回默认浅灰色 */
+      color: var(--text);
       font-weight:500;
       white-space: nowrap;
-    }
-    .grid-prompt.empty {
-      visibility: hidden;
     }
   </style>
 </head>
@@ -110,13 +105,13 @@
     <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
     
     <div class="link-grid">
-      <div class="grid-prompt">//: <span class="click-text">Click  </span></div>
+      <div class="grid-prompt">//: <span class="click-text">Click</span></div>
       <div><a href="https://www.youtube.com/@murphchen" class="platform-link YouTube">YouTube</a></div>
       
-      <div class="grid-prompt empty">//: Click  </div>
+      <div class="grid-prompt">//: <span class="click-text">Click</span></div>
       <div><a href="https://space.bilibili.com/14014217" class="platform-link bilibili">bilibili</a></div>
       
-      <div class="grid-prompt empty">//: Click  </div>
+      <div class="grid-prompt">//: <span class="click-text">Click</span></div>
       <div><a href="https://x.com/murphchenonx" class="platform-link X">X</a></div>
     </div>
   </div>
@@ -152,7 +147,8 @@
       let index = 0;
       while(true) {
         const p = platforms[index];
-        elPlatform.className = p.color;
+        // 保留光标 + 平台颜色
+        elPlatform.className = `typing ${p.color}`;
         elPlatform.textContent = '';
         for(let c of p.name) { elPlatform.textContent += c; await wait(60); }
         await wait(p.delay);
