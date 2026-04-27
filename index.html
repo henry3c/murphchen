@@ -2,131 +2,228 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Clark Chen</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
+
   <style>
-    :root{
-      --bg:#0b0f14;
-      --text:#c8d6e5; /* 主文字颜色 */
-      --accent:#5fbeff;
-      --cursor:var(--text); /* 光标颜色 = 主文字颜色（核心修改） */
+    :root {
+      --bg: #0b0f14;
+      --text: #c8d6e5;
+      --accent: #5fbeff;
+      --cursor: var(--text);
       --comment: #62727d;
-      font-size:18px;
+      font-size: 18px;
     }
-    html,body{height:100%;}
-    body{
-      margin:0;
-      background: linear-gradient(135deg,#051421 0%,var(--bg) 100%);
-      color:var(--text);
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      background: linear-gradient(135deg, #051421 0%, var(--bg) 100%);
+      background-attachment: fixed;
+      color: var(--text);
       font-family: "JetBrains Mono", monospace;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:1.5rem;
-      box-sizing:border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     .terminal {
-      width:100%;
-      max-width:480px;
-      background:#0e141b;
-      border-radius:8px;
-      box-shadow: 0 12px 36px rgba(1,6,12,0.8);
-      border:1px solid rgba(70,130,180,0.15);
+      width: 100%;
+      max-width: 480px;
+      background: #0e141b;
+      border-radius: 8px;
+      box-shadow: 0 12px 36px rgba(1, 6, 12, 0.8);
+      border: 1px solid rgba(70, 130, 180, 0.15);
       overflow: hidden;
     }
 
-    .term-head{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      background:#0f1720;
+    .term-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #0f1720;
     }
-    .dot{width:10px;height:10px;border-radius:50%;}
-    .dot.red{background:#ff5f56}
-    .dot.yellow{background:#ffbd2e}
-    .dot.green{background:#27c93f}
-    .filename{margin-left:auto;color:var(--comment);font-size:0.85rem;}
 
-    .term-body{padding:18px 22px 8px;}
-    .line{line-height:1.6;white-space:pre;}
-    .prompt{color: var(--text); font-weight: 500;}
-    
-    .YouTube {color: #FF0000;}
-    .bilibili {color: #FB7299;}
-    .X {color: #1DA1F2;}
-    .click-text {color: var(--text);}
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .dot.red {
+      background: #ff5f56;
+    }
+
+    .dot.yellow {
+      background: #ffbd2e;
+    }
+
+    .dot.green {
+      background: #27c93f;
+    }
+
+    .filename {
+      margin-left: auto;
+      color: var(--comment);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .term-body {
+      padding: 18px 22px 8px;
+    }
+
+    .line {
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    .prompt {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .YouTube {
+      color: #FF0000;
+    }
+
+    .bilibili {
+      color: #FB7299;
+    }
+
+    .X {
+      color: #1DA1F2;
+    }
+
+    .click-text {
+      color: var(--text);
+    }
 
     .typing {
-      display:inline-block;
-      border-right:2px solid var(--cursor);
-      animation:blink 1s steps(2,end) infinite;
+      display: inline-block;
+      border-right: 2px solid var(--cursor);
+      animation: blink 1s steps(2, end) infinite;
     }
-    @keyframes blink{50%{border-color:transparent}}
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
 
     .platform-link {
       text-decoration: none;
-      padding:2px 4px;
-      font-weight:500;
+      padding: 2px 4px;
+      font-weight: 500;
     }
-    .platform-link:hover {background:rgba(255,255,255,0.1)}
+
+    .platform-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
 
     .link-grid {
-      margin-top:16px;
+      margin-top: 16px;
       display: grid;
-      grid-template-columns: 10ch 1fr; 
+      grid-template-columns: 10ch 1fr;
       gap: 8px 0;
       align-items: start;
     }
+
     .grid-prompt {
       color: var(--text);
-      font-weight:500;
+      font-weight: 500;
       white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      :root {
+        font-size: 16px;
+      }
+
+      body {
+        min-height: 100vh;
+        min-height: 100svh;
+        min-height: 100dvh;
+        padding: 1rem;
+        background: linear-gradient(135deg, #051421 0%, var(--bg) 100%);
+        background-attachment: fixed;
+      }
+
+      .terminal {
+        max-width: 100%;
+      }
+
+      .term-body {
+        padding: 16px 18px 8px;
+      }
+
+      .filename {
+        font-size: 0.78rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<div class="terminal">
-  <div class="term-head">
-    <div class="dot red"></div>
-    <div class="dot yellow"></div>
-    <div class="dot green"></div>
-    <div class="filename">clarkchen_profile.txt</div>
-  </div>
+  <div class="terminal">
+    <div class="term-head">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+      <div class="filename">clarkchen_profile.txt</div>
+    </div>
 
-  <div class="term-body">
-    <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
-    <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
-    
-    <div class="link-grid">
-      <div class="grid-prompt">//: <span class="click-text">Click</span></div>
-      <!-- 改动点1：YouTube链接添加跳转属性 -->
-      <div><a href="https://www.youtube.com/@clarkchencn" class="platform-link YouTube" target="_blank" rel="noopener noreferrer external">YouTube</a></div>
-      
-      <div class="grid-prompt">//: <span class="click-text">Click</span></div>
-      <!-- 改动点2：bilibili链接添加跳转属性 -->
-      <div><a href="https://space.bilibili.com/14014217" class="platform-link bilibili" target="_blank" rel="noopener noreferrer external">bilibili</a></div>
-      
-      <div class="grid-prompt">//: <span class="click-text">Click</span></div>
-      <!-- 改动点3：X链接添加跳转属性 -->
-      <div><a href="https://x.com/clarkchencn" class="platform-link X" target="_blank" rel="noopener noreferrer external">X</a></div>
+    <div class="term-body">
+      <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
+      <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
+
+      <div class="link-grid">
+        <div class="grid-prompt">//: <span class="click-text">Click</span></div>
+        <div>
+          <a href="https://www.youtube.com/@clarkchencn" class="platform-link YouTube" target="_blank" rel="noopener noreferrer external">YouTube</a>
+        </div>
+
+        <div class="grid-prompt">//: <span class="click-text">Click</span></div>
+        <div>
+          <a href="https://space.bilibili.com/14014217" class="platform-link bilibili" target="_blank" rel="noopener noreferrer external">bilibili</a>
+        </div>
+
+        <div class="grid-prompt">//: <span class="click-text">Click</span></div>
+        <div>
+          <a href="https://x.com/clarkchencn" class="platform-link X" target="_blank" rel="noopener noreferrer external">X</a>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
+  <script>
     const nameLine = ' I\'m Clark Chen';
     const followPrefix = ' Follow Me On ';
+
     const platforms = [
-      {name:'YouTube', color:'YouTube', delay:2000},
-      {name:'bilibili', color:'bilibili', delay:2000},
-      {name:'X', color:'X', delay:2000}
+      { name: 'YouTube', color: 'YouTube', delay: 2000 },
+      { name: 'bilibili', color: 'bilibili', delay: 2000 },
+      { name: 'X', color: 'X', delay: 2000 }
     ];
 
     const TYPING_SPEED = 55;
@@ -138,9 +235,10 @@
 
     const wait = ms => new Promise(r => setTimeout(r, ms));
 
-    async function typeOnce(el, text, speed=TYPING_SPEED){
+    async function typeOnce(el, text, speed = TYPING_SPEED) {
       el.textContent = '';
-      for (let i=0;i<text.length;i++){
+
+      for (let i = 0; i < text.length; i++) {
         el.textContent += text[i];
         await wait(speed);
       }
@@ -148,27 +246,38 @@
 
     async function cyclePlatforms() {
       let index = 0;
-      while(true) {
+
+      while (true) {
         const p = platforms[index];
-        // 保留光标 + 平台颜色
+
         elPlatform.className = `typing ${p.color}`;
         elPlatform.textContent = '';
-        for(let c of p.name) { elPlatform.textContent += c; await wait(60); }
+
+        for (let c of p.name) {
+          elPlatform.textContent += c;
+          await wait(60);
+        }
+
         await wait(p.delay);
-        for(let i=0;i<p.name.length;i++){ elPlatform.textContent = elPlatform.textContent.slice(0,-1); await wait(DEL_SPEED); }
-        index = (index+1)%3;
+
+        for (let i = 0; i < p.name.length; i++) {
+          elPlatform.textContent = elPlatform.textContent.slice(0, -1);
+          await wait(DEL_SPEED);
+        }
+
+        index = (index + 1) % platforms.length;
         await wait(600);
       }
     }
 
-    (async function init(){
+    (async function init() {
       await wait(800);
       await typeOnce(elName, nameLine);
       await wait(400);
       await typeOnce(elFollow, followPrefix);
       cyclePlatforms();
     })();
-</script>
+  </script>
 
 </body>
 </html>
