@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#051421" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
   <title>Clark Chen</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,40 +15,65 @@
   <style>
     :root {
       --bg: #0b0f14;
-      --bg-gradient: linear-gradient(135deg, #051421 0%, #0b0f14 100%);
+      --bg-gradient: linear-gradient(135deg, #051421 0%, var(--bg) 100%);
       --text: #c8d6e5;
       --accent: #5fbeff;
       --cursor: var(--text);
       --comment: #62727d;
       font-size: 18px;
+      color-scheme: dark;
     }
 
-    html {
+    html,
+    body {
       margin: 0;
       padding: 0;
       width: 100%;
       min-height: 100%;
       background: var(--bg-gradient);
+      overflow-x: hidden;
+    }
+
+    html {
+      height: 100%;
     }
 
     body {
-      margin: 0;
-      padding: 1.5rem;
-      width: 100%;
       min-height: 100vh;
       min-height: 100svh;
       min-height: 100dvh;
-      box-sizing: border-box;
-
-      background: var(--bg-gradient);
       color: var(--text);
       font-family: "JetBrains Mono", monospace;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      height: 100dvh;
+      background: var(--bg-gradient);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      padding: 1.5rem;
+      padding-top: max(1.5rem, env(safe-area-inset-top));
+      padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+      box-sizing: border-box;
 
       display: flex;
       align-items: center;
       justify-content: center;
-
-      overflow-x: hidden;
     }
 
     .terminal {
@@ -163,17 +191,22 @@
         font-size: 16px;
       }
 
-      html {
-        min-height: 100%;
+      html,
+      body {
         background: var(--bg-gradient);
       }
 
-      body {
+      .page-bg {
+        background: var(--bg-gradient);
+      }
+
+      .page-wrap {
         min-height: 100vh;
         min-height: 100svh;
         min-height: 100dvh;
         padding: 1rem;
-        background: var(--bg-gradient);
+        padding-top: max(1rem, env(safe-area-inset-top));
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
       }
 
       .terminal {
@@ -193,36 +226,40 @@
 
 <body>
 
-  <div class="terminal">
-    <div class="term-head">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-      <div class="filename">clarkchen_profile.txt</div>
-    </div>
+  <div class="page-bg"></div>
 
-    <div class="term-body">
-      <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
-      <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
+  <main class="page-wrap">
+    <div class="terminal">
+      <div class="term-head">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+        <div class="filename">clarkchen_profile.txt</div>
+      </div>
 
-      <div class="link-grid">
-        <div class="grid-prompt">//: <span class="click-text">Click</span></div>
-        <div>
-          <a href="https://www.youtube.com/@clarkchencn" class="platform-link YouTube" target="_blank" rel="noopener noreferrer external">YouTube</a>
-        </div>
+      <div class="term-body">
+        <div class="line"><span class="prompt">//:</span><span id="typed-1"></span></div>
+        <div class="line"><span class="prompt">//:</span><span id="typed-2"></span><span id="typed-3" class="typing"></span></div>
 
-        <div class="grid-prompt">//: <span class="click-text">Click</span></div>
-        <div>
-          <a href="https://space.bilibili.com/14014217" class="platform-link bilibili" target="_blank" rel="noopener noreferrer external">bilibili</a>
-        </div>
+        <div class="link-grid">
+          <div class="grid-prompt">//: <span class="click-text">Click</span></div>
+          <div>
+            <a href="https://www.youtube.com/@clarkchencn" class="platform-link YouTube" target="_blank" rel="noopener noreferrer external">YouTube</a>
+          </div>
 
-        <div class="grid-prompt">//: <span class="click-text">Click</span></div>
-        <div>
-          <a href="https://x.com/clarkchencn" class="platform-link X" target="_blank" rel="noopener noreferrer external">X</a>
+          <div class="grid-prompt">//: <span class="click-text">Click</span></div>
+          <div>
+            <a href="https://space.bilibili.com/14014217" class="platform-link bilibili" target="_blank" rel="noopener noreferrer external">bilibili</a>
+          </div>
+
+          <div class="grid-prompt">//: <span class="click-text">Click</span></div>
+          <div>
+            <a href="https://x.com/clarkchencn" class="platform-link X" target="_blank" rel="noopener noreferrer external">X</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
   <script>
     const nameLine = ' I\'m Clark Chen';
