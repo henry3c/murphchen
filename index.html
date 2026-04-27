@@ -2,7 +2,6 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#051421" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -16,15 +15,11 @@
   <style>
     :root {
       --bg: #0b0f14;
-      --bg-top: #051421;
-      --bg-bottom: #0b0f14;
       --bg-gradient: linear-gradient(135deg, #051421 0%, #0b0f14 100%);
-
       --text: #c8d6e5;
       --accent: #5fbeff;
       --cursor: var(--text);
       --comment: #62727d;
-
       font-size: 18px;
       color-scheme: dark;
     }
@@ -34,60 +29,50 @@
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100%;
-      background: var(--bg-bottom);
+      min-height: 100%;
+      background: #0b0f14;
       overflow: hidden;
       overscroll-behavior: none;
-      touch-action: none;
     }
 
     html {
-      position: fixed;
-      inset: 0;
+      height: 100%;
     }
 
     body {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100vh;
-      height: 100svh;
-      height: 100dvh;
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
       color: var(--text);
       font-family: "JetBrains Mono", monospace;
       box-sizing: border-box;
+      position: relative;
       overflow: hidden;
       overscroll-behavior: none;
     }
 
     .page-bg {
       position: fixed;
-      inset: 0;
+      left: 0;
+      top: 0;
       width: 100vw;
       height: 100vh;
       height: 100lvh;
       min-height: -webkit-fill-available;
-
       background: var(--bg-gradient);
       background-repeat: no-repeat;
       background-size: 100vw 100lvh;
       background-position: center top;
-
-      z-index: 0;
+      z-index: -1;
       pointer-events: none;
-      transform: translateZ(0);
     }
 
     .page-wrap {
-      position: fixed;
-      inset: 0;
+      position: relative;
       z-index: 1;
-
-      width: 100%;
-      height: 100vh;
-      height: 100svh;
-      height: 100dvh;
-
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
       padding: 1.5rem;
       padding-top: max(1.5rem, env(safe-area-inset-top));
       padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
@@ -220,27 +205,21 @@
       body {
         overflow: hidden;
         overscroll-behavior: none;
-        touch-action: none;
-        background: var(--bg-bottom);
       }
 
       .page-bg {
         height: 100lvh;
-        min-height: -webkit-fill-available;
-        background: var(--bg-gradient);
         background-size: 100vw 100lvh;
         background-position: center top;
       }
 
       .page-wrap {
-        height: 100vh;
-        height: 100svh;
-        height: 100dvh;
-
+        min-height: 100vh;
+        min-height: 100svh;
+        min-height: 100dvh;
         padding: 1rem;
         padding-top: max(1rem, env(safe-area-inset-top));
         padding-bottom: max(1rem, env(safe-area-inset-bottom));
-
         overflow: hidden;
         overscroll-behavior: none;
       }
@@ -351,7 +330,15 @@
       }
     }
 
+    function lockMobileBounce() {
+      document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+      }, { passive: false });
+    }
+
     (async function init() {
+      lockMobileBounce();
+
       await wait(800);
       await typeOnce(elName, nameLine);
       await wait(400);
