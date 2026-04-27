@@ -15,7 +15,7 @@
   <style>
     :root {
       --bg: #0b0f14;
-      --bg-gradient: linear-gradient(135deg, #051421 0%, var(--bg) 100%);
+      --bg-gradient: linear-gradient(135deg, #051421 0%, #0b0f14 100%);
       --text: #c8d6e5;
       --accent: #5fbeff;
       --cursor: var(--text);
@@ -30,7 +30,7 @@
       padding: 0;
       width: 100%;
       min-height: 100%;
-      background: var(--bg-gradient);
+      background: #0b0f14;
       overflow-x: hidden;
     }
 
@@ -50,13 +50,17 @@
 
     .page-bg {
       position: fixed;
-      inset: 0;
+      left: 0;
+      top: 0;
       width: 100vw;
       height: 100vh;
-      height: 100svh;
-      height: 100dvh;
+      height: 100lvh;
+      min-height: -webkit-fill-available;
       background: var(--bg-gradient);
-      z-index: 0;
+      background-repeat: no-repeat;
+      background-size: 100vw 100lvh;
+      background-position: center top;
+      z-index: -1;
       pointer-events: none;
     }
 
@@ -191,13 +195,10 @@
         font-size: 16px;
       }
 
-      html,
-      body {
-        background: var(--bg-gradient);
-      }
-
       .page-bg {
-        background: var(--bg-gradient);
+        height: 100lvh;
+        background-size: 100vw 100lvh;
+        background-position: center top;
       }
 
       .page-wrap {
