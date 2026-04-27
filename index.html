@@ -12,6 +12,7 @@
   <style>
     :root {
       --bg: #0b0f14;
+      --bg-gradient: linear-gradient(135deg, #051421 0%, #0b0f14 100%);
       --text: #c8d6e5;
       --accent: #5fbeff;
       --cursor: var(--text);
@@ -19,28 +20,31 @@
       font-size: 18px;
     }
 
-    html,
-    body {
+    html {
       margin: 0;
       padding: 0;
       width: 100%;
       min-height: 100%;
-      background: var(--bg);
+      background: var(--bg-gradient);
     }
 
     body {
+      margin: 0;
+      padding: 1.5rem;
+      width: 100%;
       min-height: 100vh;
       min-height: 100svh;
       min-height: 100dvh;
-      background: linear-gradient(135deg, #051421 0%, var(--bg) 100%);
-      background-attachment: fixed;
+      box-sizing: border-box;
+
+      background: var(--bg-gradient);
       color: var(--text);
       font-family: "JetBrains Mono", monospace;
+
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
-      box-sizing: border-box;
+
       overflow-x: hidden;
     }
 
@@ -159,13 +163,17 @@
         font-size: 16px;
       }
 
+      html {
+        min-height: 100%;
+        background: var(--bg-gradient);
+      }
+
       body {
         min-height: 100vh;
         min-height: 100svh;
         min-height: 100dvh;
         padding: 1rem;
-        background: linear-gradient(135deg, #051421 0%, var(--bg) 100%);
-        background-attachment: fixed;
+        background: var(--bg-gradient);
       }
 
       .terminal {
@@ -233,7 +241,7 @@
     const elFollow = document.getElementById('typed-2');
     const elPlatform = document.getElementById('typed-3');
 
-    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
     async function typeOnce(el, text, speed = TYPING_SPEED) {
       el.textContent = '';
